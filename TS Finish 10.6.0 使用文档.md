@@ -12,7 +12,7 @@
 
 ## 2. "常规" 功能介绍
 
-参考：[](https://www.cnblogs.com/shakin/p/3714848.html)
+参考：[https://www.cnblogs.com/shakin/p/3714848.html](https://www.cnblogs.com/shakin/p/3714848.html)
 
 ## 3."PID" 功能介绍
 
@@ -20,7 +20,7 @@
 
 ## 4.”PAT/PMT“ 功能介绍
 
-参考：[](https://www.cnblogs.com/shakin/p/3714848.html)
+参考：[https://www.cnblogs.com/shakin/p/3714848.html](https://www.cnblogs.com/shakin/p/3714848.html)
 
 ## 5.“SDT” 功能介绍
 
