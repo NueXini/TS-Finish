@@ -2,9 +2,9 @@
 
 ## 1.前期准备
 
-**① 准备FFmpeg(下载地址：[](https://github.com/BtbN/FFmpeg-Builds/releases))**
+**① 准备FFmpeg(下载地址：[https://github.com/BtbN/FFmpeg-Builds/releases](FFmpeg))**
 
-**② 准备Mediainfo(下载地址：[](https://mediaarea.net/en/MediaInfo))**
+**② 准备Mediainfo(下载地址：[https://github.com/BtbN/FFmpeg-Builds/releases](Mediainfo))**
 
 ###### **③ 打开主程序，在“输入文件”中 导入要处理的MPEG-2 TS 的视频文件（拖入也可）**
 
