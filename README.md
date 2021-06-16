@@ -63,6 +63,8 @@ TS Finish 10.0.1 更新日志
 2.修正了一个翻译词条。
 
 
+
+
 ## 1.前期准备（这两个工具仅供参考，不一定非要这两个）
 
 **① 准备FFmpeg(下载地址：[https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases))**
