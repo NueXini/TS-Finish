@@ -1,7 +1,7 @@
 # **TS Finish 10.6.0 使用文档**
 软件基于.Net 4.5.2 框架运行
 
-## 1.前期准备
+## 1.前期准备（这两个工具仅供参考，不一定非要这两个）
 
 **① 准备FFmpeg(下载地址：[https://github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases))**
 
