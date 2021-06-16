@@ -1,4 +1,6 @@
-﻿Imports System.ComponentModel
+' copyright @ Delta
+' release @ NueXini
+Imports System.ComponentModel
 Imports System.ComponentModel.Design
 Imports System.IO
 Imports System.Media
