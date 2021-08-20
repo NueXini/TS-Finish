@@ -52,7 +52,7 @@ Partial Class MainUI
         Me.CLH_PID_ORIGINAL = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.CLH_PID_OVERWRITE = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TAP_PAT_PMT = New System.Windows.Forms.TabPage()
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA = New System.Windows.Forms.CheckBox()
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT = New System.Windows.Forms.ComboBox()
         Me.LBL_PAT_PMT_PERIOD_2 = New System.Windows.Forms.Label()
         Me.LBL_PAT_PMT_PERIOD_1 = New System.Windows.Forms.Label()
         Me.NUM_PAT_PMT_PERIOD = New System.Windows.Forms.NumericUpDown()
@@ -477,7 +477,7 @@ Partial Class MainUI
         '
         'TAP_PAT_PMT
         '
-        Me.TAP_PAT_PMT.Controls.Add(Me.CHK_PAT_PMT_STREAM_TYPE_DRA)
+        Me.TAP_PAT_PMT.Controls.Add(Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT)
         Me.TAP_PAT_PMT.Controls.Add(Me.LBL_PAT_PMT_PERIOD_2)
         Me.TAP_PAT_PMT.Controls.Add(Me.LBL_PAT_PMT_PERIOD_1)
         Me.TAP_PAT_PMT.Controls.Add(Me.NUM_PAT_PMT_PERIOD)
@@ -503,15 +503,16 @@ Partial Class MainUI
         Me.TAP_PAT_PMT.Text = " PAT/PMT "
         Me.TAP_PAT_PMT.UseVisualStyleBackColor = True
         '
-        'CHK_PAT_PMT_STREAM_TYPE_DRA
+        'CBO_PAT_PMT_STREAM_TYPE_DEFINIT
         '
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.AutoSize = True
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.Location = New System.Drawing.Point(476, 210)
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.Name = "CHK_PAT_PMT_STREAM_TYPE_DRA"
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.Size = New System.Drawing.Size(108, 24)
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.TabIndex = 5607
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.Text = "DRA Audio"
-        Me.CHK_PAT_PMT_STREAM_TYPE_DRA.UseVisualStyleBackColor = True
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Font = New System.Drawing.Font("微软雅黑", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.FormattingEnabled = True
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Items.AddRange(New Object() {"AC-3 Audio", "DRA Audio"})
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Location = New System.Drawing.Point(475, 208)
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Name = "CBO_PAT_PMT_STREAM_TYPE_DEFINIT"
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Size = New System.Drawing.Size(138, 27)
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.TabIndex = 5607
+        Me.CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Text = "Codec definition"
         '
         'LBL_PAT_PMT_PERIOD_2
         '
@@ -563,7 +564,7 @@ Partial Class MainUI
         '
         Me.CBO_PAT_PMT_STREAM_TYPE.Font = New System.Drawing.Font("微软雅黑", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.CBO_PAT_PMT_STREAM_TYPE.FormattingEnabled = True
-        Me.CBO_PAT_PMT_STREAM_TYPE.Items.AddRange(New Object() {"AVC (0x1B)", "HEVC (0x24)", "MPEG-1 Video (0x01)", "MPEG-2 Video (0x02)", "MPEG-4 Video (0x10)", "AVS+ (0x42)", "AVS2 (0xD2)", "AVS3 (0xD4)", "VC-1 (0xEA)", "LPCM (0x80)", "MPEG-1 Audio (0x03)", "MPEG-2 Audio (0x04)", "AAC (0x0F)", "AAC LATM (0x11)", "AC-3 (0x81)", "E-AC-3 (0x84)", "DRA (0x06)", "DTS (0x82)", "Dolby TrueHD (0x83)", "DTS-HD (0x85)", "DTS-MA (0x86)", "PGS (0x90)", "IGS (0x91)", "Text Subtitle (0x92)"})
+        Me.CBO_PAT_PMT_STREAM_TYPE.Items.AddRange(New Object() {"AVC (0x1B)", "HEVC (0x24)", "MPEG-1 Video (0x01)", "MPEG-2 Video (0x02)", "MPEG-4 Video (0x10)", "AVS+ (0x42)", "AVS2 (0xD2)", "AVS3 Video (0xD4)", "VC-1 (0xEA)", "LPCM (0x80)", "MPEG-1 Audio (0x03)", "MPEG-2 Audio (0x04)", "AAC (0x0F)", "AAC LATM (0x11)", "AC-3 (0x81)", "E-AC-3 (0x84)", "DRA (0x06)", "AVS3 Audio (0xD3)", "DTS (0x82)", "Dolby TrueHD (0x83)", "DTS-HD (0x85)", "DTS-MA (0x86)", "PGS (0x90)", "IGS (0x91)", "Text Subtitle (0x92)"})
         Me.CBO_PAT_PMT_STREAM_TYPE.Location = New System.Drawing.Point(256, 208)
         Me.CBO_PAT_PMT_STREAM_TYPE.Name = "CBO_PAT_PMT_STREAM_TYPE"
         Me.CBO_PAT_PMT_STREAM_TYPE.Size = New System.Drawing.Size(186, 27)
@@ -610,7 +611,7 @@ Partial Class MainUI
         Me.TXT_PAT_PMT_PID.Name = "TXT_PAT_PMT_PID"
         Me.TXT_PAT_PMT_PID.Size = New System.Drawing.Size(125, 27)
         Me.TXT_PAT_PMT_PID.TabIndex = 5403
-        Me.TXT_PAT_PMT_PID.Text = "8190"
+        Me.TXT_PAT_PMT_PID.Text = "32"
         '
         'LBL_PAT_PMT_PROGRAM_NUMBER
         '
@@ -1660,7 +1661,6 @@ Partial Class MainUI
     Friend WithEvents BGW_PROCESS As System.ComponentModel.BackgroundWorker
     Friend WithEvents LBL_STATUS_STANDBY As Label
     Friend WithEvents CHK_SELECT_ALL_PID As CheckBox
-    Friend WithEvents CHK_PAT_PMT_STREAM_TYPE_DRA As CheckBox
     Friend WithEvents TAP_DISCARDER As TabPage
     Friend WithEvents CHK_ENBL_DISCARDER As CheckBox
     Friend WithEvents NUM_DISCARDER_RANGE_2 As NumericUpDown
@@ -1690,4 +1690,5 @@ Partial Class MainUI
     Friend WithEvents CLH_PID_ORIGINAL As ColumnHeader
     Friend WithEvents CLH_PID_OVERWRITE As ColumnHeader
     Friend WithEvents TXT_PID_OVERWRITE As TextBox
+    Friend WithEvents CBO_PAT_PMT_STREAM_TYPE_DEFINIT As ComboBox
 End Class

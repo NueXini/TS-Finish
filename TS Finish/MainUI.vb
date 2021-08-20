@@ -1,13 +1,9 @@
-' copyright @ Delta
-' release @ NueXini
-Imports System.ComponentModel
-Imports System.ComponentModel.Design
+﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Media
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Xml.Schema
 
 Public Class MainUI
 
@@ -28,6 +24,7 @@ Public Class MainUI
     Dim INSERT_BYTE_PAT_PMT As Byte() = New Byte() {}
     Dim INSERT_BYTE_SDT As Byte() = New Byte() {}
     Dim INSERT_BYTE_USER As Byte() = New Byte() {}
+    Dim INSERT_CODEC_PAT_PMT As String = ""
     Dim INSERT_COUNT_PAT_PMT As Integer = 0
     Dim INSERT_COUNT_SDT As Integer = 0
     Dim INSERT_COUNT_USER As Integer = 0
@@ -53,7 +50,7 @@ Public Class MainUI
     Dim PROCESSOR_MESSAGE_OK As String = ""
     Dim PROCESSOR_REPORTER_COUNT As Integer = -1
     Dim PROCESSOR_RESULT_OK As Boolean = False
-    ReadOnly PROCESSOR_STOPWATCH As Stopwatch = New Stopwatch
+    ReadOnly PROCESSOR_STOPWATCH As New Stopwatch
     Dim PROCESSOR_STOPWATCH_PROGRESS As Integer = -1
     Dim PROCESSOR_TOTAL As Integer = 0
     Dim SCRAMBL_SEGMENT_COUNT As Integer = 0
@@ -172,7 +169,7 @@ Public Class MainUI
                 LBL_PAT_PMT_SELECT_PID.Text = "已选择 PID："
                 LBL_PAT_PMT_STREAM_TYPE.Text = "流类型："
                 CBO_PAT_PMT_STREAM_TYPE.Text = "请选择..."
-                CHK_PAT_PMT_STREAM_TYPE_DRA.Text = "DRA 音频"
+                CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Text = "音频编码定义"
 
                 CHK_ENBL_SDT.Text = "重建 SDT 表"
                 LBL_SDT_PERIOD_1.Text = "插入周期： 每"
@@ -331,8 +328,8 @@ Public Class MainUI
                                 PACKET_HANDLE = True
                             ElseIf STREAM_READ_TOTAL_OFFSET > DISCARDER_NEXT Then
                                 Randomize()
-                                Dim Generator As System.Random = New System.Random()
-                                DISCARDER_NEXT = STREAM_READ_TOTAL_OFFSET + (Int(Generator.Next(DISCARDER_PERIOD_FROM, DISCARDER_PERIOD_TO)) * TS_PACKET_SIZE)
+                                Dim _LOC_11 As New System.Random()
+                                DISCARDER_NEXT = STREAM_READ_TOTAL_OFFSET + (Int(_LOC_11.Next(DISCARDER_PERIOD_FROM, DISCARDER_PERIOD_TO)) * TS_PACKET_SIZE)
                             ElseIf STREAM_READ_TOTAL_OFFSET = DISCARDER_NEXT Then
                                 PACKET_HANDLE = False
                             End If
@@ -340,7 +337,7 @@ Public Class MainUI
 
                         If PACKET_HANDLE Then
                             Dim PACKET_HEADER As Byte() = New Byte() {PACKET_DATA(0), PACKET_DATA(1), PACKET_DATA(2), PACKET_DATA(3)}
-                            Dim PACKET_HEADER_BIT As BitArray = New BitArray(PACKET_HEADER)
+                            Dim PACKET_HEADER_BIT As New BitArray(PACKET_HEADER)
                             Dim PACKET_PID As Integer = (PACKET_HEADER(1) And &H1F) << 8 Or PACKET_HEADER(2)
 
                             If PROCESSOR_ACTION = "GET_PID" Then
@@ -398,7 +395,7 @@ Public Class MainUI
                                                         STREAM_WRITE_CLOSE()
                                                         If My.Computer.FileSystem.FileExists(OUTPUT_SOURCE) Then My.Computer.FileSystem.WriteAllBytes(IO.Path.GetDirectoryName(OUTPUT_SOURCE) & "\" & IO.Path.GetFileNameWithoutExtension(OUTPUT_SOURCE), My.Computer.FileSystem.ReadAllBytes(OUTPUT_SOURCE), True)
                                                         If DDB_BLOCK_NUMBER = 0 Or Not My.Computer.FileSystem.FileExists(OUTPUT_SOURCE) Then
-                                                            _LOC_19 = DateTime.Now.ToString("hhmmss")
+                                                            _LOC_19 = DateTime.Now.ToString("hhmmss") & "_" & (New Random).Next(1000, 10000)
                                                             If My.Computer.FileSystem.FileExists(OUTPUT_SOURCE) Then My.Computer.FileSystem.DeleteFile(OUTPUT_SOURCE)
                                                             OUTPUT_SOURCE = FILE_NAME_INSERT(OUTPUT_SOURCE_PREFIX, _LOC_19) & ".tmp"
                                                         End If
@@ -488,7 +485,7 @@ Public Class MainUI
                                                 STREAM_WRITE_PID_COUNTE += "<" & PACKET_PID & "|0>"
                                             End If
 
-                                            Dim _LOC_7 As BitArray = New BitArray(New Byte() {_LOC_6})
+                                            Dim _LOC_7 As New BitArray(New Byte() {_LOC_6})
                                             PACKET_HEADER_BIT(24) = _LOC_7(0)
                                             PACKET_HEADER_BIT(25) = _LOC_7(1)
                                             PACKET_HEADER_BIT(26) = _LOC_7(2)
@@ -498,7 +495,7 @@ Public Class MainUI
                                         If PID_REWRITE.Length > 0 Then
                                             Dim _LOC_8 As Integer = GetOverwritePID(PACKET_PID)
                                             If Not PACKET_PID = _LOC_8 Then
-                                                Dim _LOC_9 As BitArray = New BitArray(New Integer() {_LOC_8})
+                                                Dim _LOC_9 As New BitArray(New Integer() {_LOC_8})
                                                 PACKET_HEADER_BIT(12) = _LOC_9(12)
                                                 PACKET_HEADER_BIT(11) = _LOC_9(11)
                                                 PACKET_HEADER_BIT(10) = _LOC_9(10)
@@ -682,9 +679,9 @@ Public Class MainUI
                 Else
                     If INPUT_RTP Then
                         If RTP_OFFSET <= 0 Then
-                            Dim RTPHeaderBit As BitArray = New BitArray(New Byte() {READ_DATA(0)})
-                            Dim _LOC_8 As Integer = 12 + (RTPHeaderBit(0) + RTPHeaderBit(1) * 2 + RTPHeaderBit(2) * 4 + RTPHeaderBit(3) * 8) * 4
-                            If RTPHeaderBit(4) Then
+                            Dim RTP_HEADER_BIT As New BitArray(New Byte() {READ_DATA(0)})
+                            Dim _LOC_8 As Integer = 12 + (RTP_HEADER_BIT(0) + RTP_HEADER_BIT(1) * 2 + RTP_HEADER_BIT(2) * 4 + RTP_HEADER_BIT(3) * 8) * 4
+                            If RTP_HEADER_BIT(4) Then
                                 _LOC_8 += 4
                                 _LOC_8 += Int(READ_DATA(_LOC_8 - 2)) * 256 + Int(READ_DATA(_LOC_8 - 1)) * 4
                             End If
@@ -876,55 +873,32 @@ Public Class MainUI
         Return BitConverter.ToString(Bytes).Replace("-", "").ToUpper
     End Function
 
-    Public Shared Function BytesToBin(ByVal Bytes() As Byte) As String
-        Dim newBin As New StringBuilder
-        For Each c In Bytes
-            newBin.Append(Convert.ToString(c, 2).PadLeft(8, "0"))
+    Public Shared Function BytesToBin(Bytes() As Byte) As String
+        Dim _LOC_1 As New StringBuilder
+        For Each _LOC_2 In Bytes
+            _LOC_1.Append(Convert.ToString(_LOC_2, 2).PadLeft(8, "0"))
         Next
-        Return newBin.ToString
+        Return _LOC_1.ToString
     End Function
 
-    Public Shared Function BinToBytes(ByVal Input As String) As Byte()
-        Dim numOfBytes As Integer = Input.Length / 8
-        Dim bytes As Byte() = New Byte(numOfBytes - 1) {}
-        For i As Integer = 0 To numOfBytes - 1
-            bytes(i) = Convert.ToByte(Input.Substring(8 * i, 8), 2)
+    Public Shared Function BinToBytes(Input As String) As Byte()
+        Dim _LOC_1 As Integer = Input.Length / 8
+        Dim _LOC_2 As Byte() = New Byte(_LOC_1 - 1) {}
+        For _LOC_3 As Integer = 0 To _LOC_1 - 1
+            _LOC_2(_LOC_3) = Convert.ToByte(Input.Substring(8 * _LOC_3, 8), 2)
         Next
-        Return bytes
+        Return _LOC_2
     End Function
 
-    Private Function ClrByteArray(ByVal MyArray As System.Array) As Byte()
-        Dim baO As New List(Of Byte)
-        Dim i As Integer = MyArray.Length - 1
-        Do Until i = 0
-            If MyArray(i) <> 0 Then
-                Exit Do
-            End If
-            i -= 1
-        Loop
-        For j = 0 To i
-            baO.Add(MyArray(j))
+    Private Function ComByteArray(Array1 As System.Array, Array2 As System.Array) As Byte()
+        Dim _LOC_1 As New List(Of Byte)
+        For Each _LOC_2 In Array1
+            _LOC_1.Add(_LOC_2)
         Next
-        Return baO.ToArray
-    End Function
-
-    Private Function ComByteArray(ByVal Array1 As System.Array, ByVal Array2 As System.Array) As Byte()
-        Dim baO As New List(Of Byte)
-        For Each bt In Array1
-            baO.Add(DirectCast(bt, Byte))
+        For Each _LOC_3 In Array2
+            _LOC_1.Add(_LOC_3)
         Next
-        For Each bt In Array2
-            baO.Add(DirectCast(bt, Byte))
-        Next
-        Return baO.ToArray
-    End Function
-
-    Private Function CapByteArray(ByVal MyArray As System.Array, ByVal StartByte As Integer, ByVal EndByte As Integer) As Byte()
-        Dim baO As New List(Of Byte)
-        For i = StartByte To EndByte
-            baO.Add(MyArray(i))
-        Next
-        Return baO.ToArray
+        Return _LOC_1.ToArray
     End Function
 
     Public Sub InvokeControl(Of T As Control)(ByVal Control As T, ByVal Action As Action(Of T))
@@ -985,6 +959,16 @@ Public Class MainUI
         End Try
     End Sub
 
+    Private Sub CBO_PAT_PMT_STREAM_TYPE_DEFINIT_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBO_PAT_PMT_STREAM_TYPE_DEFINIT.SelectedIndexChanged
+        Try
+            If Not TXT_PAT_PMT_STREAM_TYPE.Text = "" Then
+                TXT_PAT_PMT_STREAM_TYPE.Text = TXT_PAT_PMT_STREAM_TYPE.Text.Split(" ")(0) & " (" & CBO_PAT_PMT_STREAM_TYPE_DEFINIT.Text.Split(" ")(0) & ")"
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
     Private Sub CBO_SDT_SERVICE_TYPE_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBO_SDT_SERVICE_TYPE.SelectedIndexChanged
         Try
             TXT_SDT_SERVICE_TYPE.Text = "0x" & Regex.Match(CBO_SDT_SERVICE_TYPE.Text, "\(0x(.*)\)", RegexOptions.None).Groups(1).Value
@@ -1013,7 +997,7 @@ Public Class MainUI
                     Text = "100% - " & System.IO.Path.GetFileName(OUTPUT_SOURCE) & " [OK]"
                     PGB_OUTPUT_PROGRESS.Value = 100
                     PROCESSOR_RESULT_OK = False
-                    PlayOKSound()
+                    PLAY_SOUND_OK()
                 End If
 
                 If PROCESSOR_ACTION.ToUpper.StartsWith("WRITE") And PROCESSOR_CANCEL Then
@@ -1314,36 +1298,51 @@ Public Class MainUI
                         PACKET_DATA_BIN += ID_BIN(_LOC_5, 13)                        'elementary_PID
                         PACKET_DATA_BIN += "1111"       'reserved
 
-                        If ID_BIN(LSV_PID.Items(_LOC_4).SubItems(3).Text, 8) = "00000110" And CHK_PAT_PMT_STREAM_TYPE_DRA.Checked Then
-                            'BEGIN BUILD DRA ES INFO
-                            PACKET_DATA_BIN += "000000001010"                        'ES_info_length 0x0A
+                        INSERT_CODEC_PAT_PMT = ""
+                        If ID_BIN(LSV_PID.Items(_LOC_4).SubItems(3).Text, 8) = "00000110" Then
+                            If INSERT_CODEC_PAT_PMT.Replace("-", "").ToUpper.Contains("AC3") Then
+                                'BEGIN BUILD AC-3 ES INFO
+                                PACKET_DATA_BIN += "000000000011"                        'ES_info_length 0x03
 
-                            'DRA registration descriptor
-                            PACKET_DATA_BIN += "00000101"                            'descriptor_tag 0x05
+                                PACKET_DATA_BIN += "01101010"                            'descriptor_tag 0x6A
 
-                            PACKET_DATA_BIN += "00000100"                            'descriptor_length 0x04
+                                PACKET_DATA_BIN += "00000001"                            'descriptor_length 0x01
 
-                            PACKET_DATA_BIN += "01000100010100100100000100110001"    'format_identifier 0x44524131
+                                PACKET_DATA_BIN += "00000000"
+                                'END BUILD AC-3 ES INFO
+                            ElseIf INSERT_CODEC_PAT_PMT.ToUpper.Contains("DRA") Then
+                                'BEGIN BUILD DRA ES INFO
+                                PACKET_DATA_BIN += "000000001010"                        'ES_info_length 0x0A
 
-                            'DRA audio stream descriptor
-                            PACKET_DATA_BIN += "10100000"                            'descriptor_tag 0xA0
+                                'DRA registration descriptor
+                                PACKET_DATA_BIN += "00000101"                            'descriptor_tag 0x05
 
-                            PACKET_DATA_BIN += "00000010"                            'descriptor_length 0x02
+                                PACKET_DATA_BIN += "00000100"                            'descriptor_length 0x04
 
-                            PACKET_DATA_BIN += "1000"                                'sample_rate_index 0x08
+                                PACKET_DATA_BIN += "01000100010100100100000100110001"    'format_identifier 0x44524131
 
-                            PACKET_DATA_BIN += "000010"                              'num_normal_channels 0x02
+                                'DRA audio stream descriptor
+                                PACKET_DATA_BIN += "10100000"                            'descriptor_tag 0xA0
 
-                            PACKET_DATA_BIN += "00"                                  'num_lfe_channels 0x00
+                                PACKET_DATA_BIN += "00000010"                            'descriptor_length 0x02
 
-                            PACKET_DATA_BIN += "0"                                   'dra_version_flag
+                                PACKET_DATA_BIN += "1000"                                'sample_rate_index 0x08
 
-                            PACKET_DATA_BIN += "0"                                   'text_present_flag
+                                PACKET_DATA_BIN += "000010"                              'num_normal_channels 0x02
 
-                            PACKET_DATA_BIN += "0"                                   'language_present_flag
+                                PACKET_DATA_BIN += "00"                                  'num_lfe_channels 0x00
 
-                            PACKET_DATA_BIN += "0"                                   'reversed
-                            'END BUILD DRA ES INFO
+                                PACKET_DATA_BIN += "0"                                   'dra_version_flag
+
+                                PACKET_DATA_BIN += "0"                                   'text_present_flag
+
+                                PACKET_DATA_BIN += "0"                                   'language_present_flag
+
+                                PACKET_DATA_BIN += "0"                                   'reversed
+                                'END BUILD DRA ES INFO
+                            Else
+                                PACKET_DATA_BIN += "000000000000"                        'ES_info_length
+                            End If
                         Else
                             PACKET_DATA_BIN += "000000000000"                        'ES_info_length
                         End If
@@ -1390,13 +1389,17 @@ Public Class MainUI
     Private Function ID_BIN(ID As String, RequiredLength As Integer)
         Try
             ID = ID.Trim
+            If ID.Contains(" ") Then
+                INSERT_CODEC_PAT_PMT = Regex.Match(ID.Split(" ")(1), "\((.*)\)", RegexOptions.None).Groups(1).Value
+                ID = ID.Split(" ")(0)
+            End If
             Dim ReturnBIN As String = ""
             If ID.ToUpper.StartsWith("0X") Then
                 Dim _LOC_1 As String = ID.ToUpper.Split("X")(1)
                 If _LOC_1.Length Mod 2 = 1 Then _LOC_1 = "0" & _LOC_1
                 ID = Int(CLng("&H" & _LOC_1))
             End If
-            Dim Number As Integer = Int(ID)
+            Dim Number As Long = Convert.ToInt64(ID)
             Do While Number > 0
                 ReturnBIN = Number Mod 2 & ReturnBIN
                 Number \= 2
@@ -1576,9 +1579,9 @@ Public Class MainUI
 
     Private Sub TXT_PAT_PMT_STREAM_TYPE_TextChanged(sender As Object, e As EventArgs) Handles TXT_PAT_PMT_STREAM_TYPE.TextChanged
         Try
-            For i = 0 To LSV_PID.Items.Count - 1
-                If LSV_PID.Items(i).SubItems(1).Text = LBL_PAT_PMT_SELECT_PID_PID.Text Then
-                    LSV_PID.Items(i).SubItems(3).Text = TXT_PAT_PMT_STREAM_TYPE.Text
+            For _LOC_1 = 0 To LSV_PID.Items.Count - 1
+                If LSV_PID.Items(_LOC_1).SubItems(1).Text = LBL_PAT_PMT_SELECT_PID_PID.Text Then
+                    LSV_PID.Items(_LOC_1).SubItems(3).Text = TXT_PAT_PMT_STREAM_TYPE.Text
                 End If
             Next
         Catch ex As Exception
@@ -1705,7 +1708,7 @@ Public Class MainUI
         Try
             If TXT_ANALYZE_PACKET_HEADER.Text.Length >= 6 Then
                 Dim PACKET_HEADER As Byte() = HexToBytes("47" & TXT_ANALYZE_PACKET_HEADER.Text.ToUpper.Substring(0, 6))
-                Dim PACKET_HEADER_BIT As BitArray = New BitArray(PACKET_HEADER)
+                Dim PACKET_HEADER_BIT As New BitArray(PACKET_HEADER)
                 Dim PACKET_PID As Integer = (PACKET_HEADER(1) And &H1F) << 8 Or PACKET_HEADER(2)
 
                 Dim _LOC_1 As String = ""
@@ -1874,11 +1877,11 @@ Public Class MainUI
         End Try
     End Function
 
-    Private Sub PlayOKSound()
+    Private Sub PLAY_SOUND_OK()
         Try
             Dim _LOC_1 As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly()
             Dim _LOC_2 As System.IO.Stream = _LOC_1.GetManifestResourceStream("TSFinish.OK.wav")
-            Dim _LOC_3 As SoundPlayer = New SoundPlayer(_LOC_2)
+            Dim _LOC_3 As New SoundPlayer(_LOC_2)
             _LOC_3.Play()
         Catch ex As Exception
 
