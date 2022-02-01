@@ -540,7 +540,7 @@ Partial Class MainUI
         Me.NUM_PAT_PMT_PERIOD.Name = "NUM_PAT_PMT_PERIOD"
         Me.NUM_PAT_PMT_PERIOD.Size = New System.Drawing.Size(125, 27)
         Me.NUM_PAT_PMT_PERIOD.TabIndex = 5105
-        Me.NUM_PAT_PMT_PERIOD.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NUM_PAT_PMT_PERIOD.Value = New Decimal(New Integer() {10000, 0, 0, 0})
         '
         'LBL_PAT_PMT_SELECT_PID_PID
         '
@@ -718,7 +718,7 @@ Partial Class MainUI
         Me.NUM_SDT_PERIOD.Name = "NUM_SDT_PERIOD"
         Me.NUM_SDT_PERIOD.Size = New System.Drawing.Size(125, 27)
         Me.NUM_SDT_PERIOD.TabIndex = 6005
-        Me.NUM_SDT_PERIOD.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NUM_SDT_PERIOD.Value = New Decimal(New Integer() {10000, 0, 0, 0})
         '
         'CBO_SDT_SERVICE_TYPE
         '
@@ -984,7 +984,7 @@ Partial Class MainUI
         'LBL_INSERT_PERIOD_2
         '
         Me.LBL_INSERT_PERIOD_2.AutoSize = True
-        Me.LBL_INSERT_PERIOD_2.Location = New System.Drawing.Point(307, 78)
+        Me.LBL_INSERT_PERIOD_2.Location = New System.Drawing.Point(307, 77)
         Me.LBL_INSERT_PERIOD_2.Name = "LBL_INSERT_PERIOD_2"
         Me.LBL_INSERT_PERIOD_2.Size = New System.Drawing.Size(64, 20)
         Me.LBL_INSERT_PERIOD_2.TabIndex = 4105
@@ -1007,7 +1007,7 @@ Partial Class MainUI
         Me.NUM_INSERT_PERIOD.Name = "NUM_INSERT_PERIOD"
         Me.NUM_INSERT_PERIOD.Size = New System.Drawing.Size(125, 27)
         Me.NUM_INSERT_PERIOD.TabIndex = 4103
-        Me.NUM_INSERT_PERIOD.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NUM_INSERT_PERIOD.Value = New Decimal(New Integer() {10000, 0, 0, 0})
         '
         'BTN_INSERT_TS_FILE
         '
@@ -1040,9 +1040,9 @@ Partial Class MainUI
         Me.CHK_ENBL_INSERT.AutoSize = True
         Me.CHK_ENBL_INSERT.Location = New System.Drawing.Point(16, 12)
         Me.CHK_ENBL_INSERT.Name = "CHK_ENBL_INSERT"
-        Me.CHK_ENBL_INSERT.Size = New System.Drawing.Size(222, 24)
+        Me.CHK_ENBL_INSERT.Size = New System.Drawing.Size(239, 24)
         Me.CHK_ENBL_INSERT.TabIndex = 4001
-        Me.CHK_ENBL_INSERT.Text = "Circularly insert TS packets"
+        Me.CHK_ENBL_INSERT.Text = "Periodically insert TS packets"
         Me.CHK_ENBL_INSERT.UseVisualStyleBackColor = True
         '
         'TAP_DISCARDER
@@ -1105,7 +1105,7 @@ Partial Class MainUI
         Me.NUM_DISCARDER_RANGE_1.Name = "NUM_DISCARDER_RANGE_1"
         Me.NUM_DISCARDER_RANGE_1.Size = New System.Drawing.Size(125, 27)
         Me.NUM_DISCARDER_RANGE_1.TabIndex = 6913
-        Me.NUM_DISCARDER_RANGE_1.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NUM_DISCARDER_RANGE_1.Value = New Decimal(New Integer() {10000, 0, 0, 0})
         '
         'CHK_ENBL_DISCARDER
         '

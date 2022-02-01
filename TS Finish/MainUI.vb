@@ -706,7 +706,8 @@ Public Class MainUI
             Loop Until END_READ_PACKET
 
             If CURRENT_EOF Then
-                STREAM_READ_CLOSE()
+                STREAM_READER.Close()
+                STREAM_READ.Close()
                 STREAM_READ_INDEX += 1
                 STREAM_READ_CURRENT_LENGTH = 0
                 STREAM_READ_CURRENT_OFFSET = 0
@@ -838,31 +839,31 @@ Public Class MainUI
         Return crcStr.Trim
     End Function
 
-    Private Shared Function CALC_CRC32_MPEG_2(ByVal Data As UInteger(), ByVal Length As Integer) As UInteger
-        Dim i As UInteger
-        Dim crc As UInteger = &HFFFFFFFFL, j As UInteger = 0
-        While (Math.Max(Threading.Interlocked.Decrement(Length), Length + 1)) <> 0
-            crc = crc Xor Data(j) << 24
-            j += 1
-            For i = 0 To 7
-                If Not (crc And &H80000000L) = 0 Then
-                    crc = (crc << 1) Xor &H4C11DB7
+    Private Shared Function CALC_CRC32_MPEG_2(Data As UInteger(), Length As Integer) As UInteger
+        Dim _LOC_1 As UInteger
+        Dim CRC As UInteger = &HFFFFFFFFL, _LOC_2 As UInteger = 0
+        While Math.Max(Threading.Interlocked.Decrement(Length), Length + 1) <> 0
+            CRC = CRC Xor Data(_LOC_2) << 24
+            _LOC_2 += 1
+            For _LOC_1 = 0 To 7
+                If Not (CRC And &H80000000L) = 0 Then
+                    CRC = (CRC << 1) Xor &H4C11DB7
                 Else
-                    crc <<= 1
+                    CRC <<= 1
                 End If
             Next
         End While
-        Return crc
+        Return CRC
     End Function
 
-    Private Shared Function HexToUInt(ByVal Input As String) As UInteger()
+    Private Shared Function HexToUInt(Input As String) As UInteger()
         Input = Input.Replace(" ", "")
         If (Input.Length Mod 2) <> 0 Then Input += " "
-        Dim returnBytes As UInteger() = New UInteger(Input.Length / 2 - 1) {}
-        For i As Integer = 0 To returnBytes.Length - 1
-            returnBytes(i) = Convert.ToByte(Input.Substring(i * 2, 2), 16)
+        Dim _LOC_1 As UInteger() = New UInteger(Input.Length / 2 - 1) {}
+        For _LOC_2 As Integer = 0 To _LOC_1.Length - 1
+            _LOC_1(_LOC_2) = Convert.ToByte(Input.Substring(_LOC_2 * 2, 2), 16)
         Next
-        Return returnBytes
+        Return _LOC_1
     End Function
 
     Public Shared Function HexToBytes(Hex As String) As Byte()
